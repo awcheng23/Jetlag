@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 public class AirplaneData {
     public static void main(String[] args) {
-        String apiKey = "your_api_key";
-        String endpoint = "https://api.example.com/flightdata";
+        String apiKey = "048c2170116ffe905be3926de8aa897a";
+        String endpoint = "https://api.aviationstack.com/v1/";
         Map<String, String> parameters = new HashMap<>();
         parameters.put("param1", "value1");
         parameters.put("param2", "value2");
