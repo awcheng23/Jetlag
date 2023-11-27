@@ -4,8 +4,8 @@ import json
 apiKey = input("API Key: ")
 apiUrl = "https://aeroapi.flightaware.com/aeroapi/"
 
-airport = 'KSFO'
-payload = {'max_pages': 2}
+airport = 'KRDU'
+payload = {'max_pages': 10}
 auth_header = {'x-apikey':apiKey}
 
 response = requests.get(apiUrl + f"airports/{airport}/flights",
