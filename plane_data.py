@@ -1,19 +1,30 @@
 import requests
+import json
 
-params = {
-  'access_key': 'eee653bfbcd13d8d839a5d54c0fdd9f5'
-}
+apiKey = input("API Key: ")
+apiUrl = "https://aeroapi.flightaware.com/aeroapi/"
 
-api_result = requests.get('https://api.aviationstack.com/v1/flights', params)
+airport = 'KSFO'
+payload = {'max_pages': 2}
+auth_header = {'x-apikey':apiKey}
 
-api_response = api_result.json()
+response = requests.get(apiUrl + f"airports/{airport}/flights",
+    params=payload, headers=auth_header)
 
-for flight in api_response['results']:
-    if (flight['live']['is_ground'] is False):
-        print(u'%s flight %s from %s (%s) to %s (%s) is in the air.' % (
-            flight['airline']['name'],
-            flight['flight']['iata'],
-            flight['departure']['airport'],
-            flight['departure']['iata'],
-            flight['arrival']['airport'],
-            flight['arrival']['iata']))
+if response.status_code == 200:
+    json_content = response.json()
+    file_name = 'flight_data.json'
+
+    # Save the JSON content to the file
+    with open(file_name, 'w') as json_file:
+        json.dump(json_content, json_file, indent=2)
+else:
+    print("Error executing request")
+
+
+# json_content = response.json()
+# flights = json_content.get('flights', [])
+# print("List of flights:")
+# for flight in flights:
+#     print(flight)
+        
