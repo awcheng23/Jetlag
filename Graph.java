@@ -1,7 +1,7 @@
 import java.util.*;
 
 /**
- * A Directed Weighted Graph
+ * A Weighted Directed Graph
  *
  * @author Alice Cheng, May Ming
  * @version 0.0.1
@@ -10,95 +10,121 @@ public class Graph {
     private Map<String, List<Node>> adjacencyList;
 
     /**
-     * Creates an empty graph
+     * Constructs an empty graph
      */
     public Graph() {
         this.adjacencyList = new HashMap<>();
     }
 
     private class Node {
-        public String data;
-        public int cost;
+        public String label;
+        public int weight;
 
-        public Node(String data, int cost){
-            this.data = data;
-            this.cost = cost;
+        public Node(String label, int weight){
+            this.label = label;
+            this.weight = weight;
         }
 
         @Override
         public String toString() {
-            return data+":"+cost;
+            return label+":"+weight;
         }
     }
 
-    // Adds a vertex
+    /**
+     * Adds a vertex to the graph
+     * @param source the vertex to add
+     */
     public void addVertex(String source) {
         if(!adjacencyList.containsKey(source))
             adjacencyList.put(source, new LinkedList<>());
     }
 
-    // Add a path
-    public void addEdge(String source, String destination, int cost) {
+    /**
+     * Adds a directed edge to the graph
+     * @param source the vertex the directed edge originates from
+     * @param destination the vertex the directed edge points to
+     * @param weight the weight of the directed edge
+     * @throws NoSuchElementException if the source vertex is not present in the graph
+     */
+    public void addEdge(String source, String destination, int weight) {
         if(!adjacencyList.containsKey(source))
             throw new NoSuchElementException();
-        adjacencyList.get(source).add(new Node(destination, cost));
+        adjacencyList.get(source).add(new Node(destination, weight));
     }
 
+    /**
+     * Finds the minimum weighted path from one vertex to another in a graph using Dijkstra's algorithm
+     * @param source the start vertex of the path
+     * @param destination the target vertex to reach
+     * @return an array containing the weight of the shortest path and the path itself
+     */
     public String[] findShortestPath(String source, String destination) {
-        HashMap<String, Node> paths = new HashMap<>();
+        Map<String, Node> paths =  new HashMap<>();
+        Set<String> visited = new HashSet<>();
+        
+        // Initialize path weights
         for(String key : adjacencyList.keySet())
             paths.put(key, new Node("", Integer.MAX_VALUE));
-        
+    
         paths.put(source, new Node("", 0));
-        Set<String> visited = new HashSet<>();
-        String curr = source;
-        int length = 0;
 
-        pathHelper(curr, length, visited, paths, destination);
-
-        String[] result = new String[2];
-
-        Node end = paths.get(destination);
-        result[0] = Integer.toString(end.cost);
-
-        String path = destination;
-        while(!"".equals(end.data)){
-            path = end.data + "," + path;
-            end = paths.get(end.data);
-        }
-
-        result[1] = path;
+        pathHelper(source, 0, visited, paths, destination);
         
-        return result;
+        return constructPath(paths, destination);
     }
 
-    private void pathHelper(String curr, int length, Set<String> visited, HashMap<String, Node> paths, String destination) {
-        if(curr.equals(destination))
+    private void pathHelper(String curr, int length, Set<String> visited, Map<String, Node> paths, String destination) {
+        if(curr.equals(destination)) // Reached destination 
             return;
         
         visited.add(curr);
+
+        // Visit all edges of curr
         for(Node n : adjacencyList.get(curr)) {
-            int newLength = length + n.cost;
-            if(newLength < paths.get(n.data).cost)
-                paths.put(n.data, new Node(curr, newLength));
+            int newLength = length + n.weight;
+            if(newLength < paths.get(n.label).weight)
+                paths.put(n.label, new Node(curr, newLength));
         }
 
-        String next = findMinUnvisitedKey(paths, visited);
+        String next = findMinUnvisited(paths, visited);
 
-        pathHelper(next, paths.get(next).cost, visited, paths, destination);
+        pathHelper(next, paths.get(next).weight, visited, paths, destination);
     }
 
-    private static String findMinUnvisitedKey(HashMap<String, Node> map, Set<String> visited) {
+    private static String findMinUnvisited(Map<String, Node> map, Set<String> visited) {
         String minKey = "";
         int minValue = Integer.MAX_VALUE;
 
-        for(String key : map.keySet()) {
-            if(!visited.contains(key) && map.get(key).cost < minValue) {
-                minValue = map.get(key).cost;
+        for (Map.Entry<String, Node> entry : map.entrySet()) {
+            String key = entry.getKey();
+            Node n = entry.getValue();
+
+            if (!visited.contains(key) && n.weight < minValue) {
+                minValue = n.weight;
                 minKey = key;
             }
         }
         return minKey;
+    }
+
+    private String[] constructPath(Map<String, Node> paths, String destination) {
+        String[] result = new String[2];
+        Node end = paths.get(destination);
+
+        if (end.weight != Integer.MAX_VALUE) { // Path exists from source to destination
+            result[0] = Integer.toString(end.weight); // Minimum cost
+    
+            StringBuilder path = new StringBuilder(destination);
+            while (!"".equals(end.label)) {
+                path.insert(0, end.label + ",");
+                end = paths.get(end.label);
+            }
+    
+            result[1] = path.toString();
+        }
+
+        return result;
     }
 }
 
