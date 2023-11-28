@@ -5,10 +5,9 @@ import java.util.*;
 
 public class FlightData {
 
-    public static void main(String[] args) { // need to make not main
-        String csvFile = "flight.csv";
+    public static ArrayList<String[]> get(String csvFile) { 
 
-        ArrayList<String[]> flights = new ArrayList<>(); // each flight
+        ArrayList<String[]> flights = new ArrayList<>(); 
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             // Read column names and store indices into HashMap
@@ -28,6 +27,6 @@ public class FlightData {
             e.printStackTrace();
         }
 
-        System.out.println(Arrays.toString(flights.get(0)));
+        return flights;
     }
 }
