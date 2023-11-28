@@ -1,11 +1,15 @@
 import java.util.*;
 
 public class Graph {
-     private Map<Integer, List<Integer>> adjacencyList;
+    private Map<String, List<Node<String>>> adjacencyList;
 
     // Constructor
     public Graph() {
         this.adjacencyList = new HashMap<>();
+    }
+
+    private class Node<String> {
+        
     }
 
     // Add a vertex to the graph
