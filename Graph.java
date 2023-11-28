@@ -29,8 +29,7 @@ public class Graph {
         adjacencyList.get(source).add(new Node(destination, cost));
     }
 
-    public void findShortestPath(String source, String destination) {
-        int i = 0;
+    public String[] findShortestPath(String source, String destination) {
         HashMap<String, Node> paths = new HashMap<>();
         for(String key : adjacencyList.keySet())
             paths.put(key, new Node("", Integer.MAX_VALUE));
@@ -39,7 +38,23 @@ public class Graph {
         Set<String> visited = new HashSet<>();
         String curr = source;
         int length = 0;
+
+        pathHelper(curr, length, visited, paths, destination);
+
+        String[] result = new String[2];
+
+        Node end = paths.get(destination);
+        result[0] = Integer.toString(end.cost);
+
+        String path = end.data;
+        while(!"".equals(end.data)){
+            end = paths.get(end.data);
+            path = end.data + "," + path;
+        }
+
+        result[1] = path;
         
+        return result;
     }
 
     private void pathHelper(String curr, int length, Set<String> visited, HashMap<String, Node> paths, String destination) {
@@ -53,17 +68,17 @@ public class Graph {
                 paths.put(n.data, new Node(curr, newLength));
         }
 
-        String next = findMinValueKey(paths);
+        String next = findMinUnvisitedKey(paths, visited);
 
         pathHelper(next, paths.get(next).cost, visited, paths, destination);
     }
 
-    private static String findMinValueKey(HashMap<String, Node> map) {
+    private static String findMinUnvisitedKey(HashMap<String, Node> map, Set<String> visited) {
         String minKey = "";
         int minValue = Integer.MAX_VALUE;
 
         for(String key : map.keySet()) {
-            if(map.get(key).cost < minValue) {
+            if(!visited.contains(key) && map.get(key).cost < minValue) {
                 minValue = map.get(key).cost;
                 minKey = key;
             }
