@@ -5,14 +5,17 @@ import java.util.*;
 
 public class FlightData {
 
-    private static HashMap<String, Integer> ID;
+    private HashMap<String, Integer> ID; // Map column name to index
+    private String csvFile;
 
+    public FlightData(String csvFile) {
+        this.csvFile = csvFile;
+    }
     /**
      * Get the data from the CSV file into a 2D array format
-     * @param csvFile the path to the data
      * @return an array of the data
      */
-    public static ArrayList<String[]> get(String csvFile) { 
+    public ArrayList<String[]> get() { 
 
         ArrayList<String[]> flights = new ArrayList<>(); 
 
@@ -38,5 +41,5 @@ public class FlightData {
         return flights;
     }
 
-
+     
 }
