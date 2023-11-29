@@ -6,18 +6,18 @@ import java.util.*;
 public class FlightData {
 
     private HashMap<String, Integer> ID; // Map column name to index
-    private String csvFile;
+    private ArrayList<String[]> flights ;
 
     public FlightData(String csvFile) {
-        this.csvFile = csvFile;
+        get(csvFile);
     }
     /**
      * Get the data from the CSV file into a 2D array format
      * @return an array of the data
      */
-    public ArrayList<String[]> get() { 
+    private ArrayList<String[]> get(String csvFile) { 
 
-        ArrayList<String[]> flights = new ArrayList<>(); 
+        flights = new ArrayList<>(); 
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             // Read column names and store indices into HashMap
@@ -41,5 +41,5 @@ public class FlightData {
         return flights;
     }
 
-     
+    
 }
