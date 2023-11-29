@@ -7,6 +7,11 @@ public class FlightData {
 
     private static HashMap<String, Integer> ID;
 
+    /**
+     * Get the data from the CSV file into a 2D array format
+     * @param csvFile the path to the data
+     * @return an array of the data
+     */
     public static ArrayList<String[]> get(String csvFile) { 
 
         ArrayList<String[]> flights = new ArrayList<>(); 
