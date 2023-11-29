@@ -5,6 +5,8 @@ import java.util.*;
 
 public class FlightData {
 
+    private static HashMap<String, Integer> ID;
+
     public static ArrayList<String[]> get(String csvFile) { 
 
         ArrayList<String[]> flights = new ArrayList<>(); 
@@ -16,6 +18,7 @@ public class FlightData {
             for(int i=0; i<headers.length; i++) {
                 col.put(headers[i], i);
             }
+            ID = col;
 
             // Read the rest of the lines
             String line;
@@ -29,4 +32,6 @@ public class FlightData {
 
         return flights;
     }
+
+
 }
