@@ -131,7 +131,7 @@ public class FlightData {
     public Set<String> getArrivals() {return arrivalAirports;}
 
     public static void main(String[] args) {
-        FlightData data = new FlightData("flight.csv");
+        FlightData data = new FlightData("data/flight.csv");
 
 
         String[] test = data.cheapestRoute("JFK", "DXB");
