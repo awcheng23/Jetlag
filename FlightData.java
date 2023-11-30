@@ -10,6 +10,9 @@ public class FlightData {
     private Set<String> departAirports; // Set of departure airports
     private Set<String> arrivalAirports; // Set of arrival airports
 
+    private final String[] DEPARTURE_STOPS = {"Departure Airport", "1st Stop", "2nd Stop", "3rd Stop"};
+    private final String[] ARRIVAL_STOPS = {"Arrival Airport", "1st Stop", "2nd Stop", "3rd Stop"};
+
     public FlightData(String csvFile) {
         get(csvFile);
         departures();
@@ -46,10 +49,9 @@ public class FlightData {
     private Set<String> departures() {
         departAirports = new HashSet<>();
         for(String[] flight : flights) {
-            departAirports.add(flight[ID.get("Departure Airport")]);
-            departAirports.add(flight[ID.get("1st Stop")]);
-            departAirports.add(flight[ID.get("2nd Stop")]);
-            departAirports.add(flight[ID.get("3rd Stop")]);
+            for(String stop : DEPARTURE_STOPS) {
+                departAirports.add(flight[ID.get(stop)]);
+            }
         }
         departAirports.remove("");
         return departAirports;
@@ -59,10 +61,9 @@ public class FlightData {
     private Set<String> arrivals() {
         arrivalAirports = new HashSet<>();
         for(String[] flight : flights) {
-            arrivalAirports.add(flight[ID.get("1st Stop")]);
-            arrivalAirports.add(flight[ID.get("2nd Stop")]);
-            arrivalAirports.add(flight[ID.get("3rd Stop")]);
-            arrivalAirports.add(flight[ID.get("Arrival Airport")]);
+            for(String stop : ARRIVAL_STOPS) {
+                arrivalAirports.add(flight[ID.get(stop)]);
+            }
         }
         arrivalAirports.remove("");
         return arrivalAirports;
@@ -77,6 +78,11 @@ public class FlightData {
         return optimal;
     }
 
+    private Graph create() {
+        Graph routes = new Graph();
+        return routes;
+    }
+
     /**
      * All flights
      * @return a list of all flights
@@ -87,7 +93,7 @@ public class FlightData {
      * Departure airports
      * @return a set of unique departure airports
      */
-    public Set<String> getDeparts() {return departAirports;}
+    public Set<String> getDepartures() {return departAirports;}
 
     /**
      * Arrival airports
@@ -97,7 +103,7 @@ public class FlightData {
 
     public static void main(String[] args) {
         FlightData data = new FlightData("flight.csv");
-        System.out.println(data.getArrivals());
+        System.out.println(data.getDepartures().size());
     }
 
 }
