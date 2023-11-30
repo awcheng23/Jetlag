@@ -1,5 +1,4 @@
 import java.io.FileInputStream;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,96 +52,32 @@ public class Main extends Application {
     titleBox.getChildren().addAll(name, gv);
     titleBox.setAlignment(Pos.CENTER);
 
-    HBox row1 = new HBox(20);
-    HBox row2 = new HBox(20);
-    //row1.setPadding(new Insets(20));
-    //row2.setPadding(new Insets(20));
-
-     //labels
-    Label label1 = new Label("Departure Airport");
-    Label label2 = new Label("Departure Time");
-    Label label3 = new Label("Arrival Airport");   
+    HBox row1 = new HBox(30);
 
     // Search boxes
-    // Create a Label for prompt text
-  Label promptLabel = new Label("Enter Departure Airport");
-  promptLabel.setStyle("-fx-text-fill: gray;");
+    ComboBox<String> departCBox = createSearchBox(departures);
+    StackPane departPane = addPromptComboBox(departCBox, "Enter Departure Airport");
 
-  // Use TextFormatter to show/hide prompt text
-  TextFormatter<String> disappearText = new TextFormatter<>(change -> {
-      if (change.getControlNewText().isEmpty()) {
-          promptLabel.setVisible(true);
-      } else {
-          promptLabel.setVisible(false);
-      }
-      return change;
-  });
-
-  ObservableList<String> departuresList = FXCollections.observableArrayList(departures);
-  ComboBox<String> departCBox = new ComboBox<>(departuresList);
-  departCBox.setEditable(true);
-  TextField departEditor = departCBox.getEditor();
-
-  departEditor.setTextFormatter(disappearText);
-
-  // StackPane to overlay ComboBox with promptLabel
-  StackPane stackPane = new StackPane(departCBox, promptLabel);
-  StackPane.setMargin(promptLabel, new javafx.geometry.Insets(0, 0, 0, 8));
-  stackPane.setAlignment(Pos.CENTER_LEFT);
-  departEditor.textProperty().addListener((observable, oldValue, newValue) -> {
-      // Filter the choices based on the entered text
-      ObservableList<String> filteredList = FXCollections.observableArrayList();
-      departuresList.stream()
-              .filter(choice -> choice.toLowerCase().contains(newValue.toLowerCase()))
-              .forEach(filteredList::add);
-
-      // Update the items in the ComboBox
-      departCBox.setItems(filteredList);
-      departCBox.show();
-  });
-
-    ObservableList<String> arrivalsList = FXCollections.observableArrayList(arrivals);
-    ComboBox<String> arriveCBox = new ComboBox<>(arrivalsList);
-    arriveCBox.setEditable(true);
-
-    TextField arriveEditor = arriveCBox.getEditor();
-    arriveEditor.setPromptText("Enter Arrival Airport");
-    arriveEditor.textProperty().addListener((observable, oldValue, newValue) -> {
-        // Filter the choices based on the entered text
-        ObservableList<String> filteredList = FXCollections.observableArrayList();
-        arrivalsList.stream()
-                .filter(choice -> choice.toLowerCase().contains(newValue.toLowerCase()))
-                .forEach(filteredList::add);
-
-        // Update the items in the ComboBox
-        arriveCBox.setItems(filteredList);
-        arriveCBox.show();
-    });
-
-    // TextField departureAirport = new TextField("Departure Airport");
-    // TextField departureTime = new TextField("Departure Time");
-    // TextField arrivalAirport = new TextField("Arrival Airport");
+    ComboBox<String> arriveCBox = createSearchBox(arrivals);
+    StackPane arrivePane = addPromptComboBox(arriveCBox, "Enter Arrival Airport");
 
     Button submitButton = new Button("Find");
-    
-    
-    //row1.getChildren().addAll(label1,label2,label3);
-    row2.getChildren().addAll(stackPane, arriveCBox ,submitButton);
-   // row1.setAlignment(Pos.CENTER);
-    row2.setAlignment(Pos.CENTER);
 
-    //labels
+    row1.getChildren().addAll(departPane, arrivePane, submitButton);
+    row1.setAlignment(Pos.CENTER);
+
+    // labels
     HBox row3 = new HBox(10);
-    //row3.setPadding(new Insets(10));
+    // row3.setPadding(new Insets(10));
 
     HBox row4 = new HBox(20);
-    //row4.setPadding(new Insets(20));
+    // row4.setPadding(new Insets(20));
 
     HBox row5 = new HBox(10);
-    //row5.setPadding(new Insets(10));
+    // row5.setPadding(new Insets(10));
 
     HBox row6 = new HBox(20);
-    //row6.setPadding(new Insets(10));
+    // row6.setPadding(new Insets(10));
 
     Label label4 = new Label("Departure Airport");
     Label label5 = new Label("Layover Airport");
@@ -154,9 +89,9 @@ public class Main extends Application {
 
     Label label7 = new Label("Departure Time");
     Label label8 = new Label("Layover Time");
-    Label label9 = new Label("Final Destination Arrival Time"); 
+    Label label9 = new Label("Final Destination Arrival Time");
     Label label10 = new Label("Price");
-    
+
     Label departureTimeOutput = new Label();
     Label layoverTimeOutput = new Label();
     Label arrivalTimeOutput = new Label();
@@ -184,27 +119,26 @@ public class Main extends Application {
       priceOutput.setText("");
     });
 
-    
-    row3.getChildren().addAll(label4,label5,label6);
+    row3.getChildren().addAll(label4, label5, label6);
     row3.setAlignment(Pos.CENTER);
-    
-    row4.getChildren().addAll(departureAirportOutput,layoverAirportOutput,arrivalAirportOutput);
+
+    row4.getChildren().addAll(departureAirportOutput, layoverAirportOutput, arrivalAirportOutput);
     row4.setAlignment(Pos.CENTER);
-    
-    row5.getChildren().addAll(label7,label8,label9,label10,newFlight);
+
+    row5.getChildren().addAll(label7, label8, label9, label10, newFlight);
     row5.setAlignment(Pos.CENTER);
-    
-    row6.getChildren().addAll(departureTimeOutput,layoverTimeOutput,arrivalTimeOutput,priceOutput);
+
+    row6.getChildren().addAll(departureTimeOutput, layoverTimeOutput, arrivalTimeOutput, priceOutput);
     row6.setAlignment(Pos.CENTER);
 
     Image backgroundImage = new Image("graphics/cloud-bg.jpg");
-    BackgroundImage background = new BackgroundImage(backgroundImage, null, null, null, 
-                                                     new BackgroundSize(800, 600, true, true, true, true));
+    BackgroundImage background = new BackgroundImage(backgroundImage, null, null, null,
+        new BackgroundSize(800, 600, true, true, true, true));
     VBox vBox = new VBox(20);
     vBox.setBackground(new Background(background));
-    vBox.getChildren().addAll(titleBox, row2,row3,row4,row5,row6);
+    vBox.getChildren().addAll(titleBox, row1, row3, row4, row5, row6);
     vBox.setAlignment(Pos.CENTER);
-    
+
     Scene scene = new Scene(vBox, 800, 600);
     // scene.getStylesheets().add("graphics/style.css");
 
@@ -214,46 +148,48 @@ public class Main extends Application {
     primaryStage.show();
   }
 
-  // private StackPane createSearchBox(Collection<String> list, String label) {
-  //     Label promptLabel = new Label(label);
-  //     promptLabel.setStyle("-fx-text-fill: gray;");
-  //     TextFormatter<String> disappearText = new TextFormatter<>(change -> { // Hide text when typing
-  //     if (change.getControlNewText().isEmpty()) {
-  //         promptLabel.setVisible(true);
-  //     } else {
-  //         promptLabel.setVisible(false);
-  //     }
-  //     return change;
+  private StackPane addPromptComboBox(ComboBox<String> comboBox, String label) {
+    Label promptLabel = new Label(label);
+    promptLabel.setStyle("-fx-text-fill: gray;");
 
-  //     //departEditor.setTextFormatter(disappearText);
+    TextFormatter<String> disappearText = new TextFormatter<>(change -> { // Hide text when typing
+      if (change.getControlNewText().isEmpty()) {
+        promptLabel.setVisible(true);
+      } else {
+        promptLabel.setVisible(false);
+      }
+      return change;
+    });
+    
+    comboBox.getEditor().setTextFormatter(disappearText);
 
-  //     // StackPane to overlay ComboBox with promptLabel
-  //     //StackPane stackPane = new StackPane(departCBox, promptLabel);
-  //     //StackPane.setMargin(promptLabel, new javafx.geometry.Insets(0, 0, 0, 8));
-  //     //stackPane.setAlignment(Pos.CENTER_LEFT);
-  // });
+    // StackPane to overlay ComboBox with promptLabel
+    StackPane stackPane = new StackPane(comboBox, promptLabel);
+    StackPane.setMargin(promptLabel, new javafx.geometry.Insets(0, 0, 0, 8));
+    stackPane.setAlignment(Pos.CENTER_LEFT);
+    
+    return stackPane;
+  }
 
-  // }
+  private ComboBox<String> createSearchBox(Collection<String> list) {
+    ObservableList<String> observeList = FXCollections.observableArrayList(list);
+    ComboBox<String> comboBox = new ComboBox<>(observeList);
+    comboBox.setEditable(true);
+    TextField editor = comboBox.getEditor();
 
-  private ComboBox<String> createComboBox(Collection<String> list, String label) {
-      ObservableList<String> observeList = FXCollections.observableArrayList(list);
-      ComboBox<String> comboBox = new ComboBox<>(observeList);
-      comboBox.setEditable(true);
-      TextField editor = comboBox.getEditor();
+    editor.textProperty().addListener((observable, oldValue, newValue) -> {
+      // Filter the choices based on the entered text
+      ObservableList<String> filteredList = FXCollections.observableArrayList();
+      observeList.stream()
+          .filter(choice -> choice.toLowerCase().contains(newValue.toLowerCase()))
+          .forEach(filteredList::add);
 
-      editor.textProperty().addListener((observable, oldValue, newValue) -> {
-          // Filter the choices based on the entered text
-          ObservableList<String> filteredList = FXCollections.observableArrayList();
-          observeList.stream()
-                  .filter(choice -> choice.toLowerCase().contains(newValue.toLowerCase()))
-                  .forEach(filteredList::add);
+      // Update the items in the ComboBox
+      comboBox.setItems(filteredList);
+      comboBox.show();
+    });
 
-          // Update the items in the ComboBox
-          comboBox.setItems(filteredList);
-          comboBox.show();
-      });
-
-      return comboBox;
+    return comboBox;
   }
 
   public static void main(String[] args) {
