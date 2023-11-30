@@ -37,6 +37,7 @@ public class Main extends Application {
   public void start(Stage primaryStage) {
 
     FlightData data = new FlightData("data/flight.csv");
+    List<String[]> flights = data.getFlights();
     Set<String> departures = data.getDepartures();
     Set<String> arrivals = data.getArrivals();
 
@@ -103,7 +104,12 @@ public class Main extends Application {
     Button clear = new Button("Clear");
 
     submitButton.setOnAction(e -> {
-      displayFlight();
+
+      if(!departures.contains(departCBox.getValue()) || !arrivals.contains(arriveCBox.getValue())) {
+        displayFlight(false); // they have not inputted valid airports
+      } 
+
+      displayFlight(true);
       // departureAirportOutput.setText(departCBox.getValue());
       // layoverAirportOutput.setText(departCBox.getValue());
       // arrivalAirportOutput.setText(arriveCBox.getValue());
@@ -154,7 +160,7 @@ public class Main extends Application {
     primaryStage.show();
   }
 
-  private GridPane displayFlight() {
+  private GridPane displayFlight(boolean flag) {
     return new GridPane();
   }
 
