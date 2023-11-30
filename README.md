@@ -1,2 +1,2 @@
 # Jetlag
- Find customizable flights between two airports
+ Find cheap flights between two airports
