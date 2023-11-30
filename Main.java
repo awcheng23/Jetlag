@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.geometry.Pos;
-
+import java.util.*;
 
 /**
  * Jetlag Application
@@ -29,7 +29,9 @@ public class Main extends Application {
   @Override
   public void start(Stage primaryStage) {
 
-    
+    FlightData data = new FlightData("data/flight.csv");
+    Set<String> departures = data.getDepartures();
+    Set<String> arrivals = data.getArrivals();
 
     Label name = new Label();
     name.setText("Jetlag");
@@ -47,9 +49,7 @@ public class Main extends Application {
     Image backgroundImage = new Image("graphics/cloud-bg.jpg");
     BackgroundImage background = new BackgroundImage(backgroundImage, null, null, null, 
                                                      new BackgroundSize(800, 600, true, true, true, true));
-   
     
-
     VBox vBox = new VBox(20);
     vBox.setBackground(new Background(background));
     vBox.getChildren().addAll(titleBox);
