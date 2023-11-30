@@ -15,7 +15,7 @@ public class FlightData {
         departures();
         arrivals();
     }
-    
+
     //Get the data from the CSV file into a 2D array format
     private List<String[]> get(String csvFile) { 
 
@@ -51,6 +51,7 @@ public class FlightData {
             departAirports.add(flight[ID.get("2nd Stop")]);
             departAirports.add(flight[ID.get("3rd Stop")]);
         }
+        departAirports.remove("");
         return departAirports;
     }
 
@@ -63,16 +64,40 @@ public class FlightData {
             arrivalAirports.add(flight[ID.get("3rd Stop")]);
             arrivalAirports.add(flight[ID.get("Arrival Airport")]);
         }
+        arrivalAirports.remove("");
         return arrivalAirports;
     }
     
 
     public String[] lowest(String source, String destination) {
-        String[] path = new String[flights.get(0).length];
+        String[] optimal = new String[flights.get(0).length];
+        
 
 
+        return optimal;
+    }
 
-        return path;
+    /**
+     * All flights
+     * @return a list of all flights
+     */
+    public List<String[]> getFlights() {return flights;}
+
+    /**
+     * Departure airports
+     * @return a set of unique departure airports
+     */
+    public Set<String> getDeparts() {return departAirports;}
+
+    /**
+     * Arrival airports
+     * @return a set of unique arrival airports
+     */
+    public Set<String> getArrivals() {return arrivalAirports;}
+
+    public static void main(String[] args) {
+        FlightData data = new FlightData("flight.csv");
+        System.out.println(data.getArrivals());
     }
 
 }
