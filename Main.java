@@ -106,10 +106,12 @@ public class Main extends Application {
     submitButton.setOnAction(e -> {
 
       if(!departures.contains(departCBox.getValue()) || !arrivals.contains(arriveCBox.getValue())) {
-        displayFlight(false); // they have not inputted valid airports
+        // they have not inputted valid airports
       } 
-
-      displayFlight(true);
+      else {
+        displayFlight(flights, data.cheapestRoute(departCBox.getValue(), arriveCBox.getValue()));
+      }
+      
       // departureAirportOutput.setText(departCBox.getValue());
       // layoverAirportOutput.setText(departCBox.getValue());
       // arrivalAirportOutput.setText(arriveCBox.getValue());
@@ -160,7 +162,14 @@ public class Main extends Application {
     primaryStage.show();
   }
 
-  private GridPane displayFlight(boolean flag) {
+  private GridPane displayFlight(List<String[]> flights, String[] info) {
+    /*
+    info[0] is the cost
+    info[1] are the airports to stop at delimited by commas (e.g. JFK,ADD,DEH)
+    info[2] are the indices indicating which flight each leg is (e.g. 3,500)
+      - this means JFK > ADD is from flights[3] and ADD > DEH is from flights[500] 
+     */
+
     return new GridPane();
   }
 
