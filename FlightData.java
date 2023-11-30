@@ -3,6 +3,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Handles flight data
+ * 
+ * @author Alice Cheng, May Ming
+ * @version 0.0.1
+ */
 public class FlightData {
 
     private Map<String, Integer> ID; // Map column name to index
@@ -11,8 +17,12 @@ public class FlightData {
     private Set<String> arrivalAirports; // Set of arrival airports
 
     private final String[] DEPARTURE_STOPS = {"Departure Airport", "1st Stop", "2nd Stop", "3rd Stop"};
-    private final String[] ARRIVAL_STOPS = {"Arrival Airport", "1st Stop", "2nd Stop", "3rd Stop"};
+    private final String[] ARRIVAL_STOPS = {"1st Stop", "2nd Stop", "3rd Stop", "Arrival Airport"};
 
+    /**
+     * Retrieves flight data from a CSV file
+     * @param csvFile the path to the flight data csv file
+     */
     public FlightData(String csvFile) {
         get(csvFile);
         departures();
@@ -80,6 +90,13 @@ public class FlightData {
 
     private Graph create() {
         Graph routes = new Graph();
+        for(String[] flight : flights) {
+            for(int i=0; i<DEPARTURE_STOPS.length; i++){
+                for(int j=i; j<ARRIVAL_STOPS.length; i++){
+                    
+                }
+            }
+        }
         return routes;
     }
 

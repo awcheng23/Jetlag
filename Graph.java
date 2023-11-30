@@ -45,11 +45,10 @@ public class Graph {
      * @param source the vertex the directed edge originates from
      * @param destination the vertex the directed edge points to
      * @param weight the weight of the directed edge
-     * @throws NoSuchElementException if the source vertex is not present in the graph
      */
     public void addEdge(String source, String destination, int weight) {
         if(!adjacencyList.containsKey(source))
-            throw new NoSuchElementException();
+            addVertex(source); // add source vertex if not already present
         adjacencyList.get(source).add(new Node(destination, weight));
     }
 
