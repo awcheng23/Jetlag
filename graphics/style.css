@@ -1,0 +1,9 @@
+.button {
+    -fx-font-size: 25;
+    -fx-font-family: "Consolas";
+}
+.button:disabled {
+    -fx-background-color: white;
+    -fx-opacity: 1;
+    -fx-text-fill: rgb(28, 130, 167);
+}
