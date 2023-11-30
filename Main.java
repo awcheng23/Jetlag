@@ -15,6 +15,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -52,7 +53,7 @@ public class Main extends Application {
     titleBox.getChildren().addAll(name, gv);
     titleBox.setAlignment(Pos.CENTER);
 
-    HBox row1 = new HBox(30);
+    HBox searchRow = new HBox(30);
 
     // Search boxes
     ComboBox<String> departCBox = createSearchBox(departures);
@@ -63,8 +64,10 @@ public class Main extends Application {
 
     Button submitButton = new Button("Find");
 
-    row1.getChildren().addAll(departPane, arrivePane, submitButton);
-    row1.setAlignment(Pos.CENTER);
+    searchRow.getChildren().addAll(departPane, arrivePane, submitButton);
+    searchRow.setAlignment(Pos.CENTER);
+
+    /*********************************************************************************/
 
     // labels
     HBox row3 = new HBox(10);
@@ -100,13 +103,14 @@ public class Main extends Application {
     Button clear = new Button("Clear");
 
     submitButton.setOnAction(e -> {
-      departureAirportOutput.setText(departCBox.getValue());
-      layoverAirportOutput.setText(departCBox.getValue());
-      arrivalAirportOutput.setText(arriveCBox.getValue());
-      departureTimeOutput.setText("8:00 pm");
-      layoverTimeOutput.setText("9:00 am");
-      arrivalTimeOutput.setText("10:00 pm");
-      priceOutput.setText("$4040");
+      displayFlight();
+      // departureAirportOutput.setText(departCBox.getValue());
+      // layoverAirportOutput.setText(departCBox.getValue());
+      // arrivalAirportOutput.setText(arriveCBox.getValue());
+      // departureTimeOutput.setText("8:00 pm");
+      // layoverTimeOutput.setText("9:00 am");
+      // arrivalTimeOutput.setText("10:00 pm");
+      // priceOutput.setText("$4040");
     });
 
     clear.setOnAction(e -> {
@@ -119,24 +123,26 @@ public class Main extends Application {
       priceOutput.setText("");
     });
 
-    row3.getChildren().addAll(label4, label5, label6);
-    row3.setAlignment(Pos.CENTER);
+    // row3.getChildren().addAll(label4, label5, label6);
+    // row3.setAlignment(Pos.CENTER);
 
-    row4.getChildren().addAll(departureAirportOutput, layoverAirportOutput, arrivalAirportOutput);
-    row4.setAlignment(Pos.CENTER);
+    // row4.getChildren().addAll(departureAirportOutput, layoverAirportOutput, arrivalAirportOutput);
+    // row4.setAlignment(Pos.CENTER);
 
-    row5.getChildren().addAll(label7, label8, label9, label10);
-    row5.setAlignment(Pos.CENTER);
+    // row5.getChildren().addAll(label7, label8, label9, label10);
+    // row5.setAlignment(Pos.CENTER);
 
-    row6.getChildren().addAll(departureTimeOutput, layoverTimeOutput, arrivalTimeOutput, priceOutput);
-    row6.setAlignment(Pos.CENTER);
+    // row6.getChildren().addAll(departureTimeOutput, layoverTimeOutput, arrivalTimeOutput, priceOutput);
+    // row6.setAlignment(Pos.CENTER);
+
+    /******************************************************************************************/
 
     Image backgroundImage = new Image("graphics/cloud-bg.jpg");
     BackgroundImage background = new BackgroundImage(backgroundImage, null, null, null,
         new BackgroundSize(800, 600, true, true, true, true));
     VBox vBox = new VBox(20);
     vBox.setBackground(new Background(background));
-    vBox.getChildren().addAll(titleBox, row1, row3, row4, row5, row6, clear);
+    vBox.getChildren().addAll(titleBox, searchRow);
     vBox.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(vBox, 800, 600);
@@ -146,6 +152,10 @@ public class Main extends Application {
     primaryStage.setMaximized(true);
     primaryStage.setScene(scene);
     primaryStage.show();
+  }
+
+  private GridPane displayFlight() {
+
   }
 
   private StackPane addPromptComboBox(ComboBox<String> comboBox, String label) {
@@ -201,7 +211,7 @@ private ComboBox<String> createSearchBox(Collection<String> list) {
     });
 
     return comboBox;
-}
+  }
 
   public static void main(String[] args) {
     launch(args);
