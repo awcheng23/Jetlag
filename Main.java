@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -16,6 +17,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -62,28 +64,49 @@ public class Main extends Application {
     Label label3 = new Label("Arrival Airport");   
 
     // Search boxes
-    ObservableList<String> departuresList = FXCollections.observableArrayList(departures);
-    ComboBox<String> departCBox = new ComboBox<>(departuresList);
-    departCBox.setEditable(true);
+    // Create a Label for prompt text
+  Label promptLabel = new Label("Enter Departure Airport");
+  promptLabel.setStyle("-fx-text-fill: gray;");
 
-    TextField departEditor = departCBox.getEditor();
-    departEditor.textProperty().addListener((observable, oldValue, newValue) -> {
-        // Filter the choices based on the entered text
-        ObservableList<String> filteredList = FXCollections.observableArrayList();
-        departuresList.stream()
-                .filter(choice -> choice.toLowerCase().contains(newValue.toLowerCase()))
-                .forEach(filteredList::add);
+  // Use TextFormatter to show/hide prompt text
+  TextFormatter<String> disappearText = new TextFormatter<>(change -> {
+      if (change.getControlNewText().isEmpty()) {
+          promptLabel.setVisible(true);
+      } else {
+          promptLabel.setVisible(false);
+      }
+      return change;
+  });
 
-        // Update the items in the ComboBox
-        departCBox.setItems(filteredList);
-        departCBox.show();
-    });
+  ObservableList<String> departuresList = FXCollections.observableArrayList(departures);
+  ComboBox<String> departCBox = new ComboBox<>(departuresList);
+  departCBox.setEditable(true);
+  TextField departEditor = departCBox.getEditor();
+
+  departEditor.setTextFormatter(disappearText);
+
+  // StackPane to overlay ComboBox with promptLabel
+  StackPane stackPane = new StackPane(departCBox, promptLabel);
+  StackPane.setMargin(promptLabel, new javafx.geometry.Insets(0, 0, 0, 8));
+  stackPane.setAlignment(Pos.CENTER_LEFT);
+  departEditor.textProperty().addListener((observable, oldValue, newValue) -> {
+      // Filter the choices based on the entered text
+      ObservableList<String> filteredList = FXCollections.observableArrayList();
+      departuresList.stream()
+              .filter(choice -> choice.toLowerCase().contains(newValue.toLowerCase()))
+              .forEach(filteredList::add);
+
+      // Update the items in the ComboBox
+      departCBox.setItems(filteredList);
+      departCBox.show();
+  });
 
     ObservableList<String> arrivalsList = FXCollections.observableArrayList(arrivals);
     ComboBox<String> arriveCBox = new ComboBox<>(arrivalsList);
     arriveCBox.setEditable(true);
 
     TextField arriveEditor = arriveCBox.getEditor();
+    arriveEditor.setPromptText("Enter Arrival Airport");
     arriveEditor.textProperty().addListener((observable, oldValue, newValue) -> {
         // Filter the choices based on the entered text
         ObservableList<String> filteredList = FXCollections.observableArrayList();
@@ -104,7 +127,7 @@ public class Main extends Application {
     
     
     //row1.getChildren().addAll(label1,label2,label3);
-    row2.getChildren().addAll(departCBox, arriveCBox ,submitButton);
+    row2.getChildren().addAll(stackPane, arriveCBox ,submitButton);
    // row1.setAlignment(Pos.CENTER);
     row2.setAlignment(Pos.CENTER);
 
@@ -189,6 +212,48 @@ public class Main extends Application {
     primaryStage.setMaximized(true);
     primaryStage.setScene(scene);
     primaryStage.show();
+  }
+
+  // private StackPane createSearchBox(Collection<String> list, String label) {
+  //     Label promptLabel = new Label(label);
+  //     promptLabel.setStyle("-fx-text-fill: gray;");
+  //     TextFormatter<String> disappearText = new TextFormatter<>(change -> { // Hide text when typing
+  //     if (change.getControlNewText().isEmpty()) {
+  //         promptLabel.setVisible(true);
+  //     } else {
+  //         promptLabel.setVisible(false);
+  //     }
+  //     return change;
+
+  //     //departEditor.setTextFormatter(disappearText);
+
+  //     // StackPane to overlay ComboBox with promptLabel
+  //     //StackPane stackPane = new StackPane(departCBox, promptLabel);
+  //     //StackPane.setMargin(promptLabel, new javafx.geometry.Insets(0, 0, 0, 8));
+  //     //stackPane.setAlignment(Pos.CENTER_LEFT);
+  // });
+
+  // }
+
+  private ComboBox<String> createComboBox(Collection<String> list, String label) {
+      ObservableList<String> observeList = FXCollections.observableArrayList(list);
+      ComboBox<String> comboBox = new ComboBox<>(observeList);
+      comboBox.setEditable(true);
+      TextField editor = comboBox.getEditor();
+
+      editor.textProperty().addListener((observable, oldValue, newValue) -> {
+          // Filter the choices based on the entered text
+          ObservableList<String> filteredList = FXCollections.observableArrayList();
+          observeList.stream()
+                  .filter(choice -> choice.toLowerCase().contains(newValue.toLowerCase()))
+                  .forEach(filteredList::add);
+
+          // Update the items in the ComboBox
+          comboBox.setItems(filteredList);
+          comboBox.show();
+      });
+
+      return comboBox;
   }
 
   public static void main(String[] args) {
