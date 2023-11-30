@@ -41,7 +41,7 @@ public class Main extends Application {
 
     Label name = new Label();
     name.setText("Jetlag");
-    name.setFont(Font.font("Century", 45));
+    name.setFont(Font.font("Century", 50));
 
     Image gif = new Image("graphics/plane.gif");
     ImageView gv = new ImageView(gif);
@@ -140,7 +140,7 @@ public class Main extends Application {
     vBox.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(vBox, 800, 600);
-    // scene.getStylesheets().add("graphics/style.css");
+    scene.getStylesheets().add("graphics/style.css");
 
     primaryStage.setTitle("Jetlag");
     primaryStage.setMaximized(true);
@@ -151,46 +151,57 @@ public class Main extends Application {
   private StackPane addPromptComboBox(ComboBox<String> comboBox, String label) {
     Label promptLabel = new Label(label);
     promptLabel.setStyle("-fx-text-fill: gray;");
-
-    TextFormatter<String> disappearText = new TextFormatter<>(change -> { // Hide text when typing
-      if (change.getControlNewText().isEmpty()) {
-        promptLabel.setVisible(true);
-      } else {
-        promptLabel.setVisible(false);
-      }
-      return change;
+    promptLabel.setOnMouseClicked(event -> {
+      comboBox.show();
+      comboBox.requestFocus();
     });
-    
+
+    TextFormatter<String> disappearText = new TextFormatter<>(change -> {
+        if (change.getControlNewText().isEmpty()) {
+            promptLabel.setVisible(true);
+        } else {
+            promptLabel.setVisible(false);
+        }
+        return change;
+    });
+
     comboBox.getEditor().setTextFormatter(disappearText);
 
     // StackPane to overlay ComboBox with promptLabel
     StackPane stackPane = new StackPane(comboBox, promptLabel);
-    StackPane.setMargin(promptLabel, new javafx.geometry.Insets(0, 0, 0, 8));
+    StackPane.setMargin(promptLabel, new javafx.geometry.Insets(0, 0, 0, 10));
     stackPane.setAlignment(Pos.CENTER_LEFT);
-    
-    return stackPane;
-  }
 
-  private ComboBox<String> createSearchBox(Collection<String> list) {
+    return stackPane;
+}
+
+private ComboBox<String> createSearchBox(Collection<String> list) {
     ObservableList<String> observeList = FXCollections.observableArrayList(list);
+    FXCollections.sort(observeList); // Sort airports alphabetically
+    
     ComboBox<String> comboBox = new ComboBox<>(observeList);
     comboBox.setEditable(true);
+    
     TextField editor = comboBox.getEditor();
-
     editor.textProperty().addListener((observable, oldValue, newValue) -> {
-      // Filter the choices based on the entered text
-      ObservableList<String> filteredList = FXCollections.observableArrayList();
-      observeList.stream()
-          .filter(choice -> choice.toLowerCase().contains(newValue.toLowerCase()))
-          .forEach(filteredList::add);
+      if (newValue.isEmpty()) {
+          comboBox.setItems(observeList);
+          comboBox.show();
+      } else {
+          // Filter the choices based on the entered text
+          ObservableList<String> filteredList = FXCollections.observableArrayList();
+          observeList.stream()
+                  .filter(choice -> choice.toLowerCase().contains(newValue.toLowerCase()))
+                  .forEach(filteredList::add);
 
-      // Update the items in the ComboBox
-      comboBox.setItems(filteredList);
-      comboBox.show();
+          // Update the items in the ComboBox
+          comboBox.setItems(filteredList);
+          comboBox.show();
+      }
     });
 
     return comboBox;
-  }
+}
 
   public static void main(String[] args) {
     launch(args);
