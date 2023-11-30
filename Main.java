@@ -97,7 +97,7 @@ public class Main extends Application {
     Label arrivalTimeOutput = new Label();
     Label priceOutput = new Label();
 
-    Button newFlight = new Button("Find New Flight");
+    Button clear = new Button("Clear");
 
     submitButton.setOnAction(e -> {
       departureAirportOutput.setText(departCBox.getValue());
@@ -109,7 +109,7 @@ public class Main extends Application {
       priceOutput.setText("$4040");
     });
 
-    newFlight.setOnAction(e -> {
+    clear.setOnAction(e -> {
       departureAirportOutput.setText("");
       layoverAirportOutput.setText("");
       arrivalAirportOutput.setText("");
@@ -125,7 +125,7 @@ public class Main extends Application {
     row4.getChildren().addAll(departureAirportOutput, layoverAirportOutput, arrivalAirportOutput);
     row4.setAlignment(Pos.CENTER);
 
-    row5.getChildren().addAll(label7, label8, label9, label10, newFlight);
+    row5.getChildren().addAll(label7, label8, label9, label10);
     row5.setAlignment(Pos.CENTER);
 
     row6.getChildren().addAll(departureTimeOutput, layoverTimeOutput, arrivalTimeOutput, priceOutput);
@@ -136,7 +136,7 @@ public class Main extends Application {
         new BackgroundSize(800, 600, true, true, true, true));
     VBox vBox = new VBox(20);
     vBox.setBackground(new Background(background));
-    vBox.getChildren().addAll(titleBox, row1, row3, row4, row5, row6);
+    vBox.getChildren().addAll(titleBox, row1, row3, row4, row5, row6, clear);
     vBox.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(vBox, 800, 600);
@@ -167,7 +167,7 @@ public class Main extends Application {
 
     comboBox.getEditor().setTextFormatter(disappearText);
 
-    // StackPane to overlay ComboBox with promptLabel
+    // Overlay ComboBox with promptLabel
     StackPane stackPane = new StackPane(comboBox, promptLabel);
     StackPane.setMargin(promptLabel, new javafx.geometry.Insets(0, 0, 0, 10));
     stackPane.setAlignment(Pos.CENTER_LEFT);
