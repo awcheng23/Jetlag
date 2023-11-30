@@ -170,6 +170,14 @@ public class Main extends Application {
       - this means JFK > ADD is from flights[3] and ADD > DEH is from flights[500] 
      */
 
+    String[] ports = info[1].split(",");
+    String[] refs = info[2].split(",");
+
+    int[] flightCode = new int[refs.length];
+    for(int i=0; i<refs.length; i++)
+      flightCode[i] = Integer.parseInt(refs[i].trim());
+
+      
     return new GridPane();
   }
 
