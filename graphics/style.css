@@ -1,6 +1,6 @@
 .root {
     -fx-font-size: 16; 
-    -fx-font-family: "Deja Vu Sans";
+    -fx-font-family: "Tahoma";
 }
 .combo-box .list-view {
     -fx-pref-height: 200; 
