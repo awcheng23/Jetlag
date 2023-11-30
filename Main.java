@@ -40,9 +40,8 @@ public class Main extends Application {
     gv.setPreserveRatio(true);
     gv.setFitWidth(100);
 
-    HBox titleBox = new HBox();
+    HBox titleBox = new HBox(30);
     titleBox.getChildren().addAll(name, gv);
-    titleBox.setSpacing(20);
     titleBox.setAlignment(Pos.CENTER);
 
     Image backgroundImage = new Image("graphics/cloud-bg.jpg");
