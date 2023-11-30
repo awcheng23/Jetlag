@@ -7,16 +7,16 @@ public class FlightData {
 
     private Map<String, Integer> ID; // Map column name to index
     private List<String[]> flights; // Array of flight data
-    private List<String> departAirports;
-    private List<String> arrivalAirports;
+    private Set<String> departAirports; // Set of departure airports
+    private Set<String> arrivalAirports; // Set of arrival airports
 
     public FlightData(String csvFile) {
         get(csvFile);
+        departures();
+        arrivals();
     }
-    /**
-     * Get the data from the CSV file into a 2D array format
-     * @return an array of the data
-     */
+    
+    //Get the data from the CSV file into a 2D array format
     private List<String[]> get(String csvFile) { 
 
         flights = new ArrayList<>(); 
@@ -43,24 +43,28 @@ public class FlightData {
     }
 
     // Get all possible departure airports
-    private ArrayList<String> departures() {
-        Collections.sort(flights, new Comparator<String[]>() {
-            @Override
-            public int compare(String[] o1, String[] o2) {
-                return o1[0].compareTo(o2[0]);
-            }
-        });
-    };
+    private Set<String> departures() {
+        departAirports = new HashSet<>();
+        for(String[] flight : flights) {
+            departAirports.add(flight[ID.get("Departure Airport")]);
+            departAirports.add(flight[ID.get("1st Stop")]);
+            departAirports.add(flight[ID.get("2nd Stop")]);
+            departAirports.add(flight[ID.get("3rd Stop")]);
+        }
+        return departAirports;
+    }
 
-    // Get all possible departure airports
-    private ArrayList<String> arrivals() {
-        Collections.sort(flights, new Comparator<String[]>() {
-            @Override
-            public int compare(String[] o1, String[] o2) {
-                return o1[0].compareTo(o2[0]);
-            }
-        });
-    };
+    // Get all possible arrival airports
+    private Set<String> arrivals() {
+        arrivalAirports = new HashSet<>();
+        for(String[] flight : flights) {
+            arrivalAirports.add(flight[ID.get("1st Stop")]);
+            arrivalAirports.add(flight[ID.get("2nd Stop")]);
+            arrivalAirports.add(flight[ID.get("3rd Stop")]);
+            arrivalAirports.add(flight[ID.get("Arrival Airport")]);
+        }
+        return arrivalAirports;
+    }
     
 
     public String[] lowest(String source, String destination) {
