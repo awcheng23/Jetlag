@@ -4,7 +4,7 @@ import java.util.*;
  * A Weighted Directed Graph
  *
  * @author Alice Cheng, May Ming
- * @version 0.0.1
+ * @version 0.0.2
  */
 public class Graph {
     private Map<String, List<Node>> adjacencyList;
@@ -114,10 +114,9 @@ public class Graph {
             }
         }
 
-
         String next = findMinUnvisited(paths, visited);
 
-        if(next.isEmpty())
+        if(next.isEmpty()) // Minimum unvisited is infinity meaning no more edges
             return;
 
         pathHelper(next, paths.get(next).weight, visited, paths, destination);
@@ -136,9 +135,6 @@ public class Graph {
                 minKey = key;
             }
         }
-
-        if(minValue == Integer.MAX_VALUE)
-            return "";
 
         return minKey;
     }
@@ -168,18 +164,18 @@ public class Graph {
 
     public static void main(String[] args) {
         Graph g = new Graph();
-        g.addEdge("A", "B", 6); g.addEdge("A", "C", 2); g.addEdge("A", "F", 4); g.addEdge("A", "G", 5); g.addEdge("A", "H", 6);
-        g.addEdge("B", "A", 6); g.addEdge("B", "D", 5); g.addEdge("B", "E", 2); g.addEdge("B", "F", 8);
-        g.addEdge("C", "A", 2); g.addEdge("C", "G", 3); g.addEdge("C", "H", 8);
-        g.addEdge("D", "B", 5); g.addEdge("D", "F", 7); 
-        g.addEdge("E", "F", 6); g.addEdge("E", "H", 11); g.addEdge("E", "B", 2);
-        g.addEdge("F", "A", 4); g.addEdge("F", "B", 8); g.addEdge("F", "D", 7); g.addEdge("F", "E", 6); g.addEdge("F", "G", 3);
-        g.addEdge("G", "A", 5); g.addEdge("G", "C", 3); g.addEdge("G", "H", 2); g.addEdge("G", "F", 3);
-        g.addEdge("H", "A", 6); g.addEdge("H", "C", 8); g.addEdge("H", "G", 2); g.addEdge("H", "E", 11);
+        // g.addEdge("A", "B", 6); g.addEdge("A", "C", 2); g.addEdge("A", "F", 4); g.addEdge("A", "G", 5); g.addEdge("A", "H", 6);
+        // g.addEdge("B", "A", 6); g.addEdge("B", "D", 5); g.addEdge("B", "E", 2); g.addEdge("B", "F", 8);
+        // g.addEdge("C", "A", 2); g.addEdge("C", "G", 3); g.addEdge("C", "H", 8);
+        // g.addEdge("D", "B", 5); g.addEdge("D", "F", 7); 
+        // g.addEdge("E", "F", 6); g.addEdge("E", "H", 11); g.addEdge("E", "B", 2);
+        // g.addEdge("F", "A", 4); g.addEdge("F", "B", 8); g.addEdge("F", "D", 7); g.addEdge("F", "E", 6); g.addEdge("F", "G", 3);
+        // g.addEdge("G", "A", 5); g.addEdge("G", "C", 3); g.addEdge("G", "H", 2); g.addEdge("G", "F", 3);
+        // g.addEdge("H", "A", 6); g.addEdge("H", "C", 8); g.addEdge("H", "G", 2); g.addEdge("H", "E", 11);
 
-        //g.addEdge("A", "B", 6); g.addEdge("C", "B", 2); 
+        g.addEdge("A", "B", 6); g.addEdge("C", "B", 2); 
 
-        String[] ans = g.findShortestPath("C", "D");
+        String[] ans = g.findShortestPath("C", "A");
 
         
         //System.out.println(ans[1] == null);
