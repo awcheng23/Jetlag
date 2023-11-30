@@ -155,7 +155,7 @@ public class Main extends Application {
   }
 
   private GridPane displayFlight() {
-
+    return new GridPane();
   }
 
   private StackPane addPromptComboBox(ComboBox<String> comboBox, String label) {
