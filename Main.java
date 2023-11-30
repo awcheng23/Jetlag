@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.geometry.Pos;
 
+
 /**
  * Jetlag Application
  *
@@ -24,9 +25,11 @@ public class Main extends Application {
   @Override
   public void start(Stage primaryStage) {
 
+    Font.getFamilies(); 
+
     Label name = new Label();
     name.setText("Jetlag");
-    name.setFont(Font.font("Lucida Bright", 45));
+    name.setFont(Font.font("Century", 45));
 
     Image backgroundImage = new Image("graphics/cloud-bg.jpg");
     BackgroundImage background = new BackgroundImage(backgroundImage, null, null, null, 
