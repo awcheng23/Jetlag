@@ -69,56 +69,28 @@ public class Main extends Application {
     searchRow.setAlignment(Pos.CENTER);
 
     /*********************************************************************************/
-
-    // labels
-    HBox row3 = new HBox(10);
-    // row3.setPadding(new Insets(10));
-
-    HBox row4 = new HBox(20);
-    // row4.setPadding(new Insets(20));
-
-    HBox row5 = new HBox(10);
-    // row5.setPadding(new Insets(10));
-
-    HBox row6 = new HBox(20);
-    // row6.setPadding(new Insets(10));
-
-    Label label4 = new Label("Departure Airport");
-    Label label5 = new Label("Layover Airport");
-    Label label6 = new Label("Final Destination Airport");
-
-    Label departureAirportOutput = new Label();
-    Label layoverAirportOutput = new Label();
-    Label arrivalAirportOutput = new Label();
-
-    Label label7 = new Label("Departure Time");
-    Label label8 = new Label("Layover Time");
-    Label label9 = new Label("Final Destination Arrival Time");
-    Label label10 = new Label("Price");
-
-    Label departureTimeOutput = new Label();
-    Label layoverTimeOutput = new Label();
-    Label arrivalTimeOutput = new Label();
-    Label priceOutput = new Label();
-
     Button clear = new Button("Clear");
+    clear.setVisible(false);
 
     GridPane output = new GridPane();
+    StackPane outputPane = new StackPane();
 
     submitButton.setOnAction(e -> {
 
       if(!departures.contains(departCBox.getValue()) || !arrivals.contains(arriveCBox.getValue())) {
         // they have not inputted valid airports
-        System.out.println("no flight available");
+        System.out.println("invalid airports(s)");
       } 
       else {
-        displayFlight(flights, data.cheapestRoute(departCBox.getValue(), arriveCBox.getValue()), output, clear);
+        displayFlight(flights, data.cheapestRoute(departCBox.getValue(), arriveCBox.getValue()), output, clear, outputPane);
         System.out.println("works");
       }
     });
 
     clear.setOnAction(e -> {
       output.getChildren().clear();
+      outputPane.getChildren().clear();
+      clear.setVisible(false);
     });
 
     /******************************************************************************************/
@@ -128,7 +100,7 @@ public class Main extends Application {
         new BackgroundSize(800, 600, true, true, true, true));
     VBox vBox = new VBox(20);
     vBox.setBackground(new Background(background));
-    vBox.getChildren().addAll(titleBox, searchRow, output);
+    vBox.getChildren().addAll(titleBox, searchRow, output, outputPane, clear);
     vBox.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(vBox, 800, 600);
@@ -140,67 +112,92 @@ public class Main extends Application {
     primaryStage.show();
   }
 
-  private GridPane displayFlight(List<String[]> flights, String[] info, GridPane grid,Button clear) {
-
-    
-    //grid.setBorder(new javafx.scene.layout.Border(new javafx.scene.layout.BorderStroke(Color.BLACK,
-        //javafx.scene.layout.BorderStrokeStyle.SOLID, null, new javafx.scene.layout.BorderWidths(2))));
+  private GridPane displayFlight(List<String[]> flights, String[] info, GridPane grid, Button clear, StackPane pane) {
     grid.setPadding(new Insets(30));
-    grid.setHgap(30);
-    grid.setVgap(20);
+    grid.setHgap(40);
+    grid.setVgap(15);
     grid.alignmentProperty().set(Pos.CENTER);
+    
+    clear.setVisible(true);
+    
+    Image boardingPass = new Image("graphics/boarding-pass.png");
+
+    ImageView iv = new ImageView(boardingPass);  
+    iv.setFitWidth(grid.getWidth()*.52);   
+    iv.setFitHeight(190);
+
+    pane.getChildren().addAll(iv, grid);
+    pane.setAlignment(Pos.CENTER);
+
+
+
+    boolean exists = flightExists(flights, info);
+    if (!exists){
+      Label noFlights = new Label("No flights found");
+      grid.add(noFlights, 0, 0);
+      return grid;
+    }
 
     String[] stops = info[1].split(",");
     String[] indices = info[2].split(",");
     int numStops = stops.length;
     String cost = info[0];
-    //create check method
-      if (stops.length == 0){
-        //no flights
-        //create 
+    int col = 0;
 
-      }
     for (int i = 0; i < numStops; i++){
       Label stopLabel;
+      Label layoverLabel;
+      Label layoverTime;
+      
       if (i == 0){
         stopLabel = new Label("Departure Airport");
       }
       else if (i == numStops-1){
         stopLabel = new Label("Final Airport");
+        // layoverLabel = new Label("Layover Time");
+        // layoverTime = new Label(flights.get(Integer.parseInt(indices[i-1]))[i]);
+        
+        // grid.add(layoverLabel, col, 0);
+        // grid.add(layoverTime, col, 1);
+        // col++;
       }
       else{
         stopLabel = new Label("Stop " + i);
       }
-      grid.add(stopLabel, i, 0);
-      
       Label airport = new Label(stops[i]);
+      airport.setFont(Font.font("Tahoma",24));
+      grid.add(stopLabel, i, 0);
       grid.add(airport, i, 1);
+
     }
 
-    //layover time
     //price
     Label priceLabel = new Label("Price");
     grid.add(priceLabel, numStops, 0);
 
-    Label price = new Label(cost);
+    Label price = new Label("$"+cost);
+    price.setFont(Font.font("Tahoma",24));
     grid.add(price, numStops, 1);
 
-    //clear button
-    grid.add(clear, numStops+1, 1);
-
-    Image boardingPass = new Image("graphics/Boarding Pass.png");
-    BackgroundImage background = new BackgroundImage(boardingPass, null, null, null, 
-      new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, true, true));
-    grid.setBackground(new Background(background));
-
-
-    /*
+    return grid;
+  }
+  
+       /*
     info[0] is the cost
     info[1] are the airports to stop at delimited by commas (e.g. JFK,ADD,DEH)
     info[2] are the indices indicating which flight each leg is (e.g. 3,500)
       - this means JFK > ADD is from flights[3] and ADD > DEH is from flights[500] 
      */
-    return grid;
+
+    // BackgroundImage background = new BackgroundImage(boardingPass, null, null, null, 
+    //   new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, true, true));
+    // grid.setBackground(new Background(background));
+
+  private boolean flightExists(List<String[]> flights, String[] info) {
+    if (info[1] == null) {
+      return false;
+    }
+    return true;
   }
 
   private StackPane addPromptComboBox(ComboBox<String> comboBox, String label) {
