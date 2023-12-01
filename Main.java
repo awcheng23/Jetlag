@@ -142,7 +142,7 @@ public class Main extends Application {
 
   private GridPane displayFlight(List<String[]> flights, String[] info, GridPane grid,Button clear) {
 
-    grid.setGridLinesVisible(true);
+    
     //grid.setBorder(new javafx.scene.layout.Border(new javafx.scene.layout.BorderStroke(Color.BLACK,
         //javafx.scene.layout.BorderStrokeStyle.SOLID, null, new javafx.scene.layout.BorderWidths(2))));
     grid.setPadding(new Insets(30));
@@ -177,6 +177,7 @@ public class Main extends Application {
       grid.add(airport, i, 1);
     }
 
+    //layover time
     //price
     Label priceLabel = new Label("Price");
     grid.add(priceLabel, numStops, 0);
@@ -186,6 +187,12 @@ public class Main extends Application {
 
     //clear button
     grid.add(clear, numStops+1, 1);
+
+    Image boardingPass = new Image("graphics/Boarding Pass.png");
+    BackgroundImage background = new BackgroundImage(boardingPass, null, null, null, 
+      new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, true, true));
+    grid.setBackground(new Background(background));
+
 
     /*
     info[0] is the cost
@@ -207,7 +214,8 @@ public class Main extends Application {
     TextFormatter<String> disappearText = new TextFormatter<>(change -> {
         if (change.getControlNewText().isEmpty()) {
             promptLabel.setVisible(true);
-        } else {
+        } 
+        else {
             promptLabel.setVisible(false);
         }
         return change;
@@ -235,7 +243,8 @@ private ComboBox<String> createSearchBox(Collection<String> list) {
       if (newValue.isEmpty()) {
           comboBox.setItems(observeList);
           comboBox.show();
-      } else {
+      } 
+      else {
           // Filter the choices based on the entered text
           ObservableList<String> filteredList = FXCollections.observableArrayList();
           observeList.stream()
