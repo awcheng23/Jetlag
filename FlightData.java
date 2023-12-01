@@ -17,7 +17,7 @@ public class FlightData {
     private Set<String> arrivalAirports; // Set of arrival airports
     private Graph routes; // Graph of all connecting flights
 
-    private final String[] DEPARTURE_STOPS = {"Departure Airport"};
+    private final String[] DEPARTURE_STOPS = {"Departure Airport", "1st Stop", "2nd Stop", "3rd Stop"};
     private final String[] ARRIVAL_STOPS = {"1st Stop", "2nd Stop", "3rd Stop", "Arrival Airport"};
 
     /**
