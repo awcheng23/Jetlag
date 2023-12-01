@@ -5,10 +5,27 @@
 .combo-box .list-view {
     -fx-pref-height: 200; 
 }
-/* .button {
-    -fx-font-size: 18;
-    -fx-font-family: "Liberation Sans";
+.combo-box {
+    -fx-background-color: white;
 }
+.button {
+    -fx-background-color: white;
+}
+.button:hover {
+    -fx-background-color: rgb(232, 208, 200);
+}
+.combo-box .arrow-button {
+    -fx-background-color: white;
+}
+
+.combo-box .arrow-button:hover {
+    -fx-background-color: rgb(232, 208, 200);
+}
+.text-field {
+    -fx-control-inner-background: white;
+    -fx-background-color: white;
+}
+/*
 .button:disabled {
     -fx-background-color: white;
     -fx-opacity: 1;
