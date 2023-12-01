@@ -76,7 +76,6 @@ public class Main extends Application {
     StackPane outputPane = new StackPane();
 
     submitButton.setOnAction(e -> {
-
       if(!departures.contains(departCBox.getValue()) || !arrivals.contains(arriveCBox.getValue())) {
         // they have not inputted valid airports
         System.out.println("invalid airports(s)");
@@ -95,7 +94,7 @@ public class Main extends Application {
 
     /******************************************************************************************/
 
-    Image backgroundImage = new Image("graphics/cloud-bg.jpg");
+    Image backgroundImage = new Image("./graphics/cloud-bg.jpg");
     BackgroundImage background = new BackgroundImage(backgroundImage, null, null, null,
         new BackgroundSize(800, 600, true, true, true, true));
     VBox vBox = new VBox(20);
@@ -104,7 +103,7 @@ public class Main extends Application {
     vBox.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(vBox, 800, 600);
-    scene.getStylesheets().add("graphics/style.css");
+    scene.getStylesheets().add("./graphics/style.css");
 
     primaryStage.setTitle("Jetlag");
     primaryStage.setMaximized(true);
@@ -120,7 +119,7 @@ public class Main extends Application {
     
     clear.setVisible(true);
     
-    Image boardingPass = new Image("graphics/boarding-pass.png");
+    Image boardingPass = new Image("./graphics/boarding-pass1.png");
 
     ImageView iv = new ImageView(boardingPass);  
     iv.setFitWidth(grid.getWidth()*.52);   
