@@ -103,45 +103,23 @@ public class Main extends Application {
 
     Button clear = new Button("Clear");
 
+    GridPane output = new GridPane();
+
     submitButton.setOnAction(e -> {
 
       if(!departures.contains(departCBox.getValue()) || !arrivals.contains(arriveCBox.getValue())) {
         // they have not inputted valid airports
+        System.out.println("no flight available");
       } 
       else {
-        displayFlight(flights, data.cheapestRoute(departCBox.getValue(), arriveCBox.getValue()));
+        displayFlight(flights, data.cheapestRoute(departCBox.getValue(), arriveCBox.getValue()), output, clear);
+        System.out.println("works");
       }
-      
-      // departureAirportOutput.setText(departCBox.getValue());
-      // layoverAirportOutput.setText(departCBox.getValue());
-      // arrivalAirportOutput.setText(arriveCBox.getValue());
-      // departureTimeOutput.setText("8:00 pm");
-      // layoverTimeOutput.setText("9:00 am");
-      // arrivalTimeOutput.setText("10:00 pm");
-      // priceOutput.setText("$4040");
     });
 
     clear.setOnAction(e -> {
-      departureAirportOutput.setText("");
-      layoverAirportOutput.setText("");
-      arrivalAirportOutput.setText("");
-      departureTimeOutput.setText("");
-      layoverTimeOutput.setText("");
-      arrivalTimeOutput.setText("");
-      priceOutput.setText("");
+      output.getChildren().clear();
     });
-
-    // row3.getChildren().addAll(label4, label5, label6);
-    // row3.setAlignment(Pos.CENTER);
-
-    // row4.getChildren().addAll(departureAirportOutput, layoverAirportOutput, arrivalAirportOutput);
-    // row4.setAlignment(Pos.CENTER);
-
-    // row5.getChildren().addAll(label7, label8, label9, label10);
-    // row5.setAlignment(Pos.CENTER);
-
-    // row6.getChildren().addAll(departureTimeOutput, layoverTimeOutput, arrivalTimeOutput, priceOutput);
-    // row6.setAlignment(Pos.CENTER);
 
     /******************************************************************************************/
 
@@ -150,7 +128,7 @@ public class Main extends Application {
         new BackgroundSize(800, 600, true, true, true, true));
     VBox vBox = new VBox(20);
     vBox.setBackground(new Background(background));
-    vBox.getChildren().addAll(titleBox, searchRow);
+    vBox.getChildren().addAll(titleBox, searchRow, output);
     vBox.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(vBox, 800, 600);
@@ -162,15 +140,60 @@ public class Main extends Application {
     primaryStage.show();
   }
 
-  private GridPane displayFlight(List<String[]> flights, String[] info) {
+  private GridPane displayFlight(List<String[]> flights, String[] info, GridPane grid,Button clear) {
+
+    grid.setGridLinesVisible(true);
+    //grid.setBorder(new javafx.scene.layout.Border(new javafx.scene.layout.BorderStroke(Color.BLACK,
+        //javafx.scene.layout.BorderStrokeStyle.SOLID, null, new javafx.scene.layout.BorderWidths(2))));
+    grid.setPadding(new Insets(30));
+    grid.setHgap(30);
+    grid.setVgap(20);
+    grid.alignmentProperty().set(Pos.CENTER);
+
+    String[] stops = info[1].split(",");
+    String[] indices = info[2].split(",");
+    int numStops = stops.length;
+    String cost = info[0];
+    //create check method
+      if (stops.length == 0){
+        //no flights
+        //create 
+
+      }
+    for (int i = 0; i < numStops; i++){
+      Label stopLabel;
+      if (i == 0){
+        stopLabel = new Label("Departure Airport");
+      }
+      else if (i == numStops-1){
+        stopLabel = new Label("Final Airport");
+      }
+      else{
+        stopLabel = new Label("Stop " + i);
+      }
+      grid.add(stopLabel, i, 0);
+      
+      Label airport = new Label(stops[i]);
+      grid.add(airport, i, 1);
+    }
+
+    //price
+    Label priceLabel = new Label("Price");
+    grid.add(priceLabel, numStops, 0);
+
+    Label price = new Label(cost);
+    grid.add(price, numStops, 1);
+
+    //clear button
+    grid.add(clear, numStops+1, 1);
+
     /*
     info[0] is the cost
     info[1] are the airports to stop at delimited by commas (e.g. JFK,ADD,DEH)
     info[2] are the indices indicating which flight each leg is (e.g. 3,500)
       - this means JFK > ADD is from flights[3] and ADD > DEH is from flights[500] 
      */
-
-    return new GridPane();
+    return grid;
   }
 
   private StackPane addPromptComboBox(ComboBox<String> comboBox, String label) {
