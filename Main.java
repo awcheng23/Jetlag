@@ -237,7 +237,7 @@ private ComboBox<String> createSearchBox(Collection<String> list) {
     
     TextField editor = comboBox.getEditor();
     editor.textProperty().addListener((observable, oldValue, newValue) -> {
-      if (newValue.isEmpty()) {
+      if (newValue.isBlank()) {
           comboBox.setItems(observeList);
           comboBox.show();
       } 
