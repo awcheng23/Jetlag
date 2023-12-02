@@ -122,7 +122,7 @@ public class Main extends Application {
     Image boardingPass = new Image("./graphics/boarding-pass1.png");
 
     ImageView iv = new ImageView(boardingPass);  
-    iv.setFitWidth(grid.getWidth()*.52);   
+    iv.setFitWidth(grid.getWidth()*.5);   
     iv.setFitHeight(190);
 
     pane.getChildren().addAll(iv, grid);
@@ -187,10 +187,6 @@ public class Main extends Application {
     info[2] are the indices indicating which flight each leg is (e.g. 3,500)
       - this means JFK > ADD is from flights[3] and ADD > DEH is from flights[500] 
      */
-
-    // BackgroundImage background = new BackgroundImage(boardingPass, null, null, null, 
-    //   new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, true, true));
-    // grid.setBackground(new Background(background));
 
   private boolean flightExists(List<String[]> flights, String[] info) {
     if (info[1] == null) {
