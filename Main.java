@@ -83,6 +83,8 @@ public class Main extends Application {
     clear.setOnAction(e -> {  
       output.getChildren().clear();
       outputPane.getChildren().clear();
+      
+      // Reset ComboBoxes
       ComboBox<String> departBox = createSearchBox(departures);
       StackPane departP = addPromptComboBox(departBox, "Enter Departure Airport");
 
@@ -93,11 +95,11 @@ public class Main extends Application {
       searchRow.getChildren().addAll(departP, arriveP, submitButton);
 
       submitButton.setOnAction(event -> {
-      // Airports entered in search box must exist
-      if(departures.contains(departBox.getValue()) && arrivals.contains(arriveBox.getValue())) {
-        displayFlight(flights, data.cheapestRoute(departBox.getValue(), arriveBox.getValue()), output, clear, outputPane);
-      }
-    });
+        // Airports entered in search box must exist
+        if(departures.contains(departBox.getValue()) && arrivals.contains(arriveBox.getValue())) {
+          displayFlight(flights, data.cheapestRoute(departBox.getValue(), arriveBox.getValue()), output, clear, outputPane);
+        }
+      });
 
       clear.setVisible(false);
     });
