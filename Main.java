@@ -119,10 +119,10 @@ public class Main extends Application {
     
     clear.setVisible(true);
     
-    Image boardingPass = new Image("./graphics/boarding-pass1.png");
+    Image boardingPass = new Image("./graphics/boarding-pass.png");
 
     ImageView iv = new ImageView(boardingPass);  
-    iv.setFitWidth(grid.getWidth()*.52);   
+    iv.setFitWidth(grid.getWidth()*.50);   
     iv.setFitHeight(190);
 
     pane.getChildren().addAll(iv, grid);
