@@ -25,9 +25,3 @@
     -fx-control-inner-background: white;
     -fx-background-color: white;
 }
-/*
-.button:disabled {
-    -fx-background-color: white;
-    -fx-opacity: 1;
-    -fx-text-fill: rgb(28, 130, 167);
-} */
