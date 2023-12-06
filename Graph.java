@@ -25,7 +25,7 @@ public class Graph {
             this.label = label;
             this.weight = weight;
         }
-        // option to add additional reference to node
+        // Option to add additional reference to node
         public Node(String label, int weight, int ref){
             this.label = label;
             this.weight = weight;
@@ -48,7 +48,7 @@ public class Graph {
     }
 
     /**
-     * Adds a directed edge to the graph
+     * Adds a weighted directed edge to the graph
      * @param source the vertex the directed edge originates from
      * @param destination the vertex the directed edge points to
      * @param weight the weight of the directed edge
@@ -62,7 +62,7 @@ public class Graph {
     }
 
     /**
-     * Adds a directed edge to the graph with additional reference
+     * Adds a weighted directed edge to the graph with additional reference
      * @param source the vertex the directed edge originates from
      * @param destination the vertex the directed edge points to
      * @param weight the weight of the directed edge
@@ -159,7 +159,7 @@ public class Graph {
             result[2] = result[2].substring(0, result[2].length() - 1);
         }
 
-        return result;
+        return result; // Elements are null if path does not exist
     }
 }
 

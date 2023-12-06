@@ -31,7 +31,7 @@ public class FlightData {
         createGraph();
     }
 
-    // Get the data from the CSV file into a 2D array format
+    // Gets the data from a CSV file into a 2D array 
     private List<String[]> get(String csvFile) { 
 
         flights = new ArrayList<>(); 
