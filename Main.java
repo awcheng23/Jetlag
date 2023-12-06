@@ -80,9 +80,25 @@ public class Main extends Application {
       }
     });
 
-    clear.setOnAction(e -> {
+    clear.setOnAction(e -> {  
       output.getChildren().clear();
       outputPane.getChildren().clear();
+      ComboBox<String> departBox = createSearchBox(departures);
+      StackPane departP = addPromptComboBox(departBox, "Enter Departure Airport");
+
+      ComboBox<String> arriveBox = createSearchBox(arrivals);
+      StackPane arriveP = addPromptComboBox(arriveBox, "Enter Arrival Airport");
+
+      searchRow.getChildren().clear();
+      searchRow.getChildren().addAll(departP, arriveP, submitButton);
+
+      submitButton.setOnAction(event -> {
+      // Airports entered in search box must exist
+      if(departures.contains(departBox.getValue()) && arrivals.contains(arriveBox.getValue())) {
+        displayFlight(flights, data.cheapestRoute(departBox.getValue(), arriveBox.getValue()), output, clear, outputPane);
+      }
+    });
+
       clear.setVisible(false);
     });
 
